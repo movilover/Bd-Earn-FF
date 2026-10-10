@@ -1,232 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EarnZone – Daily Task Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--primary:#1a56db;--accent2:#10b981;--bg:#f0f4ff;--card:#ffffff;--text:#1e293b;--muted:#64748b;--radius:16px}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    .header{background:linear-gradient(135deg,#1a56db,#1e40af);padding:0 16px;height:64px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(26,86,219,.35);position:sticky;top:0;z-index:50}
-    .header-brand{display:flex;align-items:center;gap:10px}
-    .header-logo{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-    .header-title{font-family:'Syne',sans-serif;font-size:20px;color:#fff}
-    .header-title span{color:#fde68a}
-    .profile-btn{width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,.4);overflow:hidden;cursor:pointer}
-    .profile-btn img{width:100%;height:100%;object-fit:cover}
-    .hero{margin:16px;background:linear-gradient(135deg,#1a56db,#7c3aed);border-radius:var(--radius);padding:20px 20px 18px;color:#fff;position:relative;overflow:hidden}
-    .hero::before{content:'';position:absolute;right:-20px;top:-20px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07)}
-    .hero-tag{display:inline-block;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-    .hero h2{font-family:'Syne',sans-serif;font-size:22px;line-height:1.25;margin-bottom:5px}
-    .hero p{font-size:13px;opacity:.8}
-    .hero-stats{display:flex;gap:10px;margin-top:14px}
-    .hero-stat{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;text-align:center;flex:1}
-    .hero-stat-val{font-size:20px;font-weight:800;color:#fde68a}
-    .hero-stat-label{font-size:11px;opacity:.75}
-    .section-title{padding:4px 16px 10px;font-family:'Syne',sans-serif;font-size:16px;color:var(--text);display:flex;align-items:center;gap:8px}
-    .section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
-    .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 100px}
-    .task-card{background:var(--card);border-radius:var(--radius);padding:16px 12px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1.5px solid #e8eef8;display:flex;flex-direction:column;gap:8px;animation:fadeUp .4s ease both}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .task-card:nth-child(1){animation-delay:.05s}.task-card:nth-child(2){animation-delay:.10s}.task-card:nth-child(3){animation-delay:.15s}.task-card:nth-child(4){animation-delay:.20s}.task-card:nth-child(5){animation-delay:.25s}.task-card:nth-child(6){animation-delay:.30s}.task-card:nth-child(7){animation-delay:.35s}.task-card:nth-child(8){animation-delay:.40s}.task-card:nth-child(9){animation-delay:.45s}.task-card:nth-child(10){animation-delay:.50s}
-    .task-num{font-size:11px;font-weight:700;color:var(--primary);background:#eff6ff;padding:3px 9px;border-radius:20px;width:fit-content}
-    .task-icon{font-size:28px;text-align:center}
-    .task-label{font-size:13px;font-weight:700;text-align:center}
-    .task-reward{display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;color:var(--accent2)}
-    .btn-start{width:100%;padding:10px 0;border-radius:10px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;background:linear-gradient(135deg,var(--primary),#3b82f6);color:#fff;box-shadow:0 4px 12px rgba(26,86,219,.25);transition:transform .15s}
-    .btn-start:hover{transform:translateY(-2px)}
-    .btn-locked{width:100%;padding:10px 0;border-radius:10px;border:none;background:#f1f5f9;color:#94a3b8;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:not-allowed}
-    .overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.65);backdrop-filter:blur(4px);z-index:100;align-items:flex-end;justify-content:center}
-    .overlay.show{display:flex;animation:fadeIn .2s ease}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .modal{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:20px 18px 32px;animation:slideUp .3s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto}
-    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-    .modal-drag{width:40px;height:4px;background:#e2e8f0;border-radius:4px;margin:0 auto 16px}
-    .modal-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-    .modal-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#1a56db,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-    .modal-title{font-family:'Syne',sans-serif;font-size:18px}
-    .modal-sub{font-size:12px;color:var(--muted);margin-top:2px}
-    .warning-box{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:13px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
-    .warning-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-    .warning-text{font-size:13px;color:#92400e;line-height:1.55}
-    .warning-text strong{color:#c2410c;font-weight:800}
-    .danger-box{background:#fef2f2;border:1.5px solid #fecaca;border-radius:12px;padding:13px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
-    .danger-text{font-size:13px;color:#991b1b;line-height:1.55}
-    .danger-text strong{font-weight:800;color:#dc2626}
-    .steps-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:13px;margin-bottom:16px}
-    .steps-title{font-size:12px;font-weight:800;color:#166534;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
-    .step-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
-    .step-item:last-child{margin-bottom:0}
-    .step-num{width:20px;height:20px;border-radius:50%;background:var(--accent2);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-    .step-text{font-size:13px;color:#166534;line-height:1.4}
-    .btn-open{width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;background:linear-gradient(135deg,#1a56db,#3b82f6);color:#fff;box-shadow:0 6px 20px rgba(26,86,219,.35);display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s}
-    .btn-open:hover{transform:translateY(-2px)}
-    .btn-cancel{width:100%;padding:12px;border-radius:14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;background:#f1f5f9;color:var(--muted);margin-top:8px}
-    .bottom-notice{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:11px 16px;display:flex;align-items:center;gap:10px;font-size:12px;box-shadow:0 -4px 20px rgba(0,0,0,.2);z-index:40}
-    .notice-dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 1.5s infinite;flex-shrink:0}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .pw-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:200;align-items:center;justify-content:center}
-    .pw-overlay.show{display:flex}
-    .pw-box{background:#fff;border-radius:20px;padding:28px 24px;width:300px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-    .pw-title{font-family:'Syne',sans-serif;font-size:18px;margin-bottom:16px}
-    .pw-input{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:15px;font-family:'Nunito',sans-serif;margin-bottom:12px;outline:none}
-    .pw-input:focus{border-color:var(--primary)}
-    .pw-btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
-    #adminPanel{display:none;padding:16px;margin-bottom:80px}
-    .admin-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-    .admin-title{font-family:'Syne',sans-serif;font-size:18px;color:var(--primary);margin-bottom:16px}
-    .admin-input{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:10px;margin-bottom:8px;font-size:13px;font-family:'Nunito',sans-serif}
-    .admin-add-btn{background:#eff6ff;color:var(--primary);border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px}
-    .admin-save-btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer}
-  </style>
-</head>
-<body>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Royal Time</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070B14;--card:#0F1626;--line:#1E2940;--tx:#EAF0FF;--mu:#8391AD;--ac:#4F8CFF;--ac2:#7C5CFF;--gr:#2DD4A8;--rd:#FF5D73;--am:#FFB547;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#070B14}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Hind Siliguri',system-ui,sans-serif}
+#app{max-width:480px;margin:0 auto;height:100%;display:flex;flex-direction:column;position:relative}
+main{flex:1;overflow-y:auto;padding:16px 16px 24px}
+.pg{display:none;flex-direction:column;gap:14px}.pg.on{display:flex}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.sora{font-family:Sora,sans-serif}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.mu{color:var(--mu);font-size:13px}
+.ic{width:42px;height:42px;border-radius:12px;background:#16213A;display:grid;place-items:center;font-size:19px;flex:none}
+.pill{font-size:12px;padding:4px 10px;border-radius:99px;border:1px solid var(--line);background:#121B30;white-space:nowrap}
+.pill.rd{color:var(--rd);border-color:#4a2530;background:#2a1520}.pill.gr{color:var(--gr);border-color:#1b4a40;background:#0f2a26}.pill.am{color:var(--am);border-color:#4a3a1b;background:#2a2212}
+.btn{border-radius:14px;padding:11px 16px;font-weight:600;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;text-align:center}
+.btn.gh{background:#121B30;border:1px solid var(--line)}.btn.gn{background:linear-gradient(135deg,#17b890,#2DD4A8);color:#04211a}.btn.w{width:100%}
+.bal{border-radius:22px;padding:18px;background:linear-gradient(135deg,#1B3A8C 0%,#3D4FD8 55%,#6E4FE8 100%);position:relative;overflow:hidden;box-shadow:0 12px 30px #2a3fb055}
+.bal::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(#ffffff26,transparent 70%)}
+.bal .lb{font-size:12px;letter-spacing:.06em;opacity:.8}.bal .n{font-family:Sora;font-size:38px;font-weight:700;margin:4px 0}.bal .n small{font-size:16px;opacity:.8}
+.coin{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:84px;height:84px;border-radius:50%;background:conic-gradient(from 200deg,#E8EEFF,#9DB4FF,#E8EEFF,#7C9CFF,#E8EEFF);display:grid;place-items:center;box-shadow:0 8px 24px #0006;z-index:1}
+.coin i{width:68px;height:68px;border-radius:50%;background:#0D1530;display:grid;place-items:center;font:700 34px Sora;font-style:normal;color:#CFE0FF}
+.bal .btn{background:#0A1230;display:inline-flex;gap:8px;margin-top:8px;position:relative;z-index:2}
+.alert{border-radius:22px;padding:16px;background:linear-gradient(135deg,#E8365D,#F2762E)}
+.alert .t{font-weight:700;font-size:18px}.alert .btn{background:#fff;color:#c2240f;padding:10px 16px}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.tabs button{padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);white-space:nowrap;font-size:14px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.h{font-weight:700;font-size:17px;display:flex;justify-content:space-between;align-items:center}.h a{font-size:14px;color:var(--ac);font-weight:500}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.st{text-align:center}.st b{display:block;font:700 20px Sora}
+.qa{text-align:center;padding:12px 4px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:600}.qa .ic{margin:0 auto 6px}.qa small{display:block;font-weight:400;color:var(--mu);font-size:11px}
+.bar{height:6px;border-radius:9px;background:#16213A;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;width:6%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:9px}
+.task{display:flex;gap:12px;align-items:center}.task .tx{flex:1;min-width:0}.task b{font-size:16px}.rw{color:var(--am);font:600 14px Sora}
+.inp{width:100%;background:#0B1120;border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--tx);font:500 16px Sora}
+.inp:focus{outline:2px solid var(--ac);border-color:transparent}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.chips button{padding:9px 0;border-radius:12px;background:var(--card);border:1px solid var(--line);font:600 13px Sora}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pm button{display:flex;gap:10px;align-items:center;padding:12px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);text-align:left}.pm button.on{border-color:var(--ac);background:#10213f}
+.lg{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:#fff}
+.hd{display:flex;align-items:center;justify-content:space-between}.hd .ct{text-align:center}.hd .ct b{font:700 16px Sora;letter-spacing:.08em}
+.sq{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center}
+.sq.rd{background:#2a1520;border-color:#4a2530}
+.empty{text-align:center;padding:26px 10px}.empty .ic{margin:0 auto 10px}
+.ls .it{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.ls .it:last-child{border:0}.ls .it .tx{flex:1}
+nav{display:grid;grid-template-columns:repeat(5,1fr);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:#0B1220;border-top:1px solid var(--line)}
+nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font-size:12px;color:var(--mu)}
+nav button span{width:50px;height:34px;display:grid;place-items:center;border-radius:12px;font-size:19px}
+nav button.on{color:var(--ac);font-weight:600}nav button.on span{background:#14264a}
+.av{width:68px;height:68px;border-radius:50%;border:2.5px solid var(--ac);background:linear-gradient(135deg,#243a7a,#5a3fc0);display:grid;place-items:center;font:700 24px Sora;flex:none}
+.lk{display:flex;background:#0B1120;border:1px solid var(--line);border-radius:14px;padding:6px;gap:8px;align-items:center}.lk code{flex:1;font-size:13px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:8px}
+.tg{background:linear-gradient(135deg,#1c9be8,#2AABEE)}
+#toast{position:absolute;left:50%;bottom:92px;transform:translate(-50%,20px);background:#1a2740;border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><div id="app">
+<main>
 
-<div class="header">
-  <div class="header-brand">
-    <div class="header-logo">💰</div>
-    <div class="header-title">Earn<span>Zone</span></div>
-  </div>
-  <div class="profile-btn" id="profileBtn">
-    <img src="https://i.pravatar.cc/40?img=3" alt="profile">
-  </div>
+<section class="pg on" id="home">
+<div class="row sp"><div class="row"><div class="av" style="width:58px;height:58px;font-size:20px">OF</div><div><div style="font-weight:700;font-size:19px">Omor Faruk Sojol <span style="color:var(--ac)">✔</span></div><div class="mu">#RC-894832 · Royal Time</div><div class="row" style="margin-top:6px"><span class="pill rd">🔒 Inactive</span><span class="pill">🛡 Level 1 (প্রহরী) ›</span></div></div></div><button class="sq" data-t="নোটিফিকেশন">🔔</button></div>
+<div class="bal"><div class="lb">TOTAL BALANCE 👁</div><div class="n">3.00 <small>RC</small></div><div style="font-size:14px;opacity:.85">Available: <b>3.00 RC</b></div><button class="btn" data-go="withdraw">👛 Wallet ›</button><div class="coin"><i>R</i></div></div>
+<div class="card" style="height:150px;display:grid;place-items:center" data-t="ব্যানার স্লাইডার"><span class="mu">ব্যানার / স্লাইডার এরিয়া</span></div>
+<div class="alert"><div class="row"><div class="ic" style="background:#ffffff33">⚠️</div><div><div class="t">আপনার একাউন্ট একটিভ নয়!</div><div style="font-size:13px;opacity:.9">একাউন্ট একটিভ করে আনলিমিটেড ইনকাম আনলক করুন 🎁</div></div></div><div class="row sp" style="margin-top:14px;padding-top:12px;border-top:1px solid #ffffff44"><b>এককালীন ফি: ৳30.00</b><button class="btn" data-t="একাউন্ট একটিভ করুন">⚡ Active Now →</button></div></div>
+<div class="card"><div class="row sp"><div class="row"><div class="ic">👑</div><div><b class="sora" style="letter-spacing:.04em">ROYAL HALL OF FAME</b><div class="mu">১২টি রাজকীয় পদবী ও শীর্ষ দরবার</div></div></div><span class="pill am">LIVE</span></div><div class="g3" style="grid-template-columns:1fr 1fr;margin-top:12px"><button class="btn gh" data-t="১২টি পদবী">🏅 ১২টি পদবী</button><button class="btn" data-t="শীর্ষ দরবার">🏆 শীর্ষ দরবার</button></div></div>
+<div class="h">📈 Earnings Overview <a data-t="সব দেখুন">View All ›</a></div>
+<div class="g3"><div class="card"><div class="ic" style="width:34px;height:34px">🎬</div><div class="mu" style="margin-top:8px">Ads Earnings</div><b class="sora">0.00 <small style="color:var(--am)">RC</small></b></div><div class="card"><div class="ic" style="width:34px;height:34px">👥</div><div class="mu" style="margin-top:8px">Referral Earn</div><b class="sora">0.00 <small style="color:var(--am)">RC</small></b></div><div class="card"><div class="ic" style="width:34px;height:34px">📋</div><div class="mu" style="margin-top:8px">Task Earnings</div><b class="sora">0.00 <small style="color:var(--am)">RC</small></b></div></div>
+<div class="h">⚡ Quick Access</div>
+<div class="g4"><button class="qa" data-go="refer"><div class="ic">🔗</div>Refer &amp; Earn<small>Invite Friends</small></button><button class="qa" data-go="withdraw"><div class="ic">👛</div>Withdraw<small>Cash Out</small></button><button class="qa" data-t="ডেইলি বোনাস ক্লেইম"><div class="ic">🎁</div>Daily Bonus<small style="color:var(--gr)">Claim 1 RC</small></button><button class="qa" data-go="earn"><div class="ic">✅</div>Tasks<small>Complete</small></button></div>
+<div class="h">🕒 Recent Activity <span class="mu" style="font-family:monospace;color:var(--ac)">Live Synced</span></div>
+<div class="card row"><div class="ic">🎁</div><div style="flex:1"><b>Signup Reward</b><div class="mu">ওয়েলকাম বোনাস ওয়ালেটে যুক্ত হয়েছে</div></div><div style="text-align:right"><b style="color:var(--gr)">+3.00 RC</b><div class="mu" style="font-size:11px">১০/১০/২০২৬, ০৩:১৫ PM</div></div></div>
+</section>
+
+<section class="pg" id="earn">
+<div class="hd"><button class="sq" data-go="home">←</button><div class="ct"><b>EARN REWARDS</b><div class="mu" style="font-size:11px">Royal ID: #RC-894832</div></div><button class="sq" data-t="রিফ্রেশ">⟳</button></div>
+<div class="bal" style="padding:16px"><div class="lb">মোট ব্যালেন্স 👁</div><div class="n" style="font-size:32px">3.00 <small>RC</small></div><div style="font-size:13px;opacity:.85">উত্তোলনযোগ্য: <b>3.00 RC</b></div><div class="coin" style="width:70px;height:70px"><i style="width:56px;height:56px;font-size:28px">R</i></div></div>
+<div class="card g3"><div class="st"><b>0</b><span class="mu">আজকের বিজ্ঞাপন</span></div><div class="st"><b>0</b><span class="mu">বাকি বিজ্ঞাপন</span></div><div class="st"><b style="color:var(--gr)">0</b><span class="mu">সক্রিয় টাস্ক</span></div></div>
+<div class="h">🗂 আয়ের ক্যাটাগরি <span class="pill gr">লাইভ প্রমোশন</span></div>
+<div class="tabs" id="tabs"><button class="on">⠿ সব</button><button>▶ ভিডিও</button><button>🎁 বোনাস</button><button>♪ TikTok</button><button>✈ Telegram</button></div>
+<div class="card task"><div class="ic">🎁</div><div class="tx"><b>দৈনিক ফ্রি বোনাস</b> <span class="pill am">দৈনিক</span><div class="mu">প্রতি ২৪ ঘণ্টায় একবার ক্লেইম করুন</div><span class="rw">+ 0.50 RC</span> <span class="mu">ফ্রি রিওয়ার্ড</span></div><button class="btn" data-t="বোনাস ক্লেইম">✓ ক্লেইম</button></div>
+<div class="card task"><div class="ic" style="color:var(--gr)">▶</div><div class="tx"><b>ভিডিও বিজ্ঞাপন</b> <span class="pill rd">50/50 বাকি</span><div class="mu">১৫ সেকেন্ড দেখে সাথে সাথে আয় নিন</div><span class="rw">+ 0.10 RC</span> <span class="mu">· ১৫ সেকেন্ড</span></div><button class="btn gn" data-t="বিজ্ঞাপন দেখুন">▶ দেখুন</button></div>
+<div class="card"><div class="task"><div class="ic" style="color:#4a8bff">f</div><div class="tx"><b>ফেইসবুক ফলো</b> <span class="pill am">Royal Time official channel</span><div class="mu">আন ফলো করলে ব্যান খাবেন।</div><span class="rw">+ 0.50 RC</span> <span class="mu" style="color:var(--gr)">· লাইভ</span></div><button class="btn gh" data-t="প্রুফ জমা দিন">📷 প্রুফ দিন</button></div><div class="mu" style="color:var(--gr);margin-top:8px">∞ আনলিমিটেড স্লট এভেলেবল</div></div>
+<div class="card"><div class="task"><div class="ic" style="color:#ff4d4d">▶</div><div class="tx"><b>YouTube সাবস্ক্রাইব</b> <span class="pill am">সাবস্ক্রাইব করুন</span><div class="mu">আনসাবস্ক্রাইব করলে ব্যান করা হবে।</div><span class="rw">+ 0.50 RC</span> <span class="mu" style="color:var(--gr)">· লাইভ</span></div><button class="btn gh" data-t="প্রুফ জমা দিন">📷 প্রুফ দিন</button></div><div class="mu" style="color:var(--gr);margin-top:8px">∞ আনলিমিটেড স্লট এভেলেবল</div></div>
+<div class="card"><div class="task"><div class="ic" style="color:#ff5fa8">◎</div><div class="tx"><b>Instagram ফলো</b> <span class="pill am">ফলো করুন</span><div class="mu">আনফলো করলে ব্যান করা হবে।</div><span class="rw">+ 0.30 RC</span> <span class="mu" style="color:var(--gr)">· লাইভ</span></div><button class="btn gh" data-t="প্রুফ জমা দিন">📷 প্রুফ দিন</button></div><div class="mu" style="color:var(--gr);margin-top:8px">∞ আনলিমিটেড স্লট এভেলেবল</div></div>
+<div class="card"><div class="task"><div class="ic" style="color:#2AABEE">✈</div><div class="tx"><b>Telegram চ্যানেল</b> <span class="pill am">জয়েন করুন</span><div class="mu">Join this channel to get all kinds of updates.</div><span class="rw">+ 0.50 RC</span> <span class="mu" style="color:var(--gr)">· লাইভ</span></div><button class="btn gh" data-t="প্রুফ জমা দিন">📷 প্রুফ দিন</button></div><div class="mu" style="color:var(--gr);margin-top:8px">∞ আনলিমিটেড স্লট এভেলেবল</div></div>
+</section>
+
+<section class="pg" id="refer">
+<div class="hd"><button class="sq" data-go="home">←</button><div class="ct"><b>REFER &amp; EARN</b><div class="mu" style="font-size:11px">রেফারেল প্রোগ্রাম ও টিম</div></div><button class="sq" data-t="শেয়ার">⤴</button></div>
+<div class="card row sp"><div><div class="mu" style="color:var(--am)">⚡ ইনস্ট্যান্ট ক্যাশ রিওয়ার্ড</div><b style="font-size:17px">১টি সফল রেফারে পাবেন ১০.০০ RC</b><div class="mu">বন্ধু একাউন্ট চালু করলেই বোনাস আনলক</div></div><div class="ic">🎁</div></div>
+<div class="bal"><div class="mu" style="color:#dbe6ff">ইনভাইট করুন ও রিওয়ার্ড জিতুন</div><div class="n" style="font-size:30px">প্রতি রেফারে ১০.০০ RC</div><span class="pill" style="background:#0A1230;border-color:#0A1230;position:relative;z-index:2">🎁 বন্ধু পাবে ১৫.০০ RC ফ্রি বোনাস</span></div>
+<div class="card"><div class="row sp"><div class="row"><div class="ic">🔓</div><div><b>উইথড্রয়াল আনলক শর্ত: 20 জন</b><div class="mu">আপনার রেফার সংখ্যা: <b>০</b> জন</div></div></div><span class="pill am">20 জন বাকি</span></div><div class="bar"><i></i></div></div>
+<div class="card"><div class="mu" style="color:var(--ac);font-weight:600;margin-bottom:10px">🔗 আপনার রেফারেল লিংক</div><div class="lk"><code>https://t.me/RoyalTimee_Bot/app?s…</code><button class="btn" style="padding:9px 14px" data-t="লিংক কপি হয়েছে">⧉ Copy</button></div><button class="btn tg w" style="margin-top:12px;padding:14px" data-t="টেলিগ্রাম ইনভাইট">✈ টেলিগ্রাম বন্ধুদের ইনভাইট করুন</button><div class="g3" style="margin-top:10px"><button class="btn gh" data-t="WhatsApp শেয়ার">WhatsApp</button><button class="btn gh" data-t="Facebook শেয়ার">Facebook</button><button class="btn gh" data-t="আরও অপশন">More</button></div></div>
+<div class="g3"><div class="card st"><div class="ic" style="margin:0 auto 6px;width:34px;height:34px">👥</div><b>0</b><span class="mu">মোট রেফার</span></div><div class="card st"><div class="ic" style="margin:0 auto 6px;width:34px;height:34px">✅</div><b>0</b><span class="mu">সক্রিয় মেম্বার</span></div><div class="card st"><div class="ic" style="margin:0 auto 6px;width:34px;height:34px">🪙</div><b style="color:var(--am)">0.00</b><span class="mu">মোট RC আয়</span></div></div>
+<div class="h">👥 আপনার রেফারেল টিম <span class="mu" style="font-family:monospace">0 Members</span></div>
+<div class="card empty"><div class="ic">➕</div><b>এখনও কোনো বন্ধু জয়েন করেনি</b><div class="mu">আপনার রেফারেল লিংক বন্ধুদের সাথে শেয়ার করে টিম তৈরি করুন এবং বেশি বেশি আয় করুন।</div></div>
+</section>
+
+<section class="pg" id="withdraw">
+<div class="hd"><button class="sq" data-go="home">←</button><div class="ct"><b>WITHDRAW PORTAL</b><div class="mu" style="font-size:11px">Royal ID: #RC-894832</div></div><div class="row" style="gap:6px"><button class="sq rd" data-t="রিপোর্ট">⚠️</button><button class="sq" data-t="সাহায্য">?</button></div></div>
+<div class="bal" style="padding:16px"><div class="lb">AVAILABLE BALANCE 👁</div><div class="n" style="font-size:32px">3.00 <small>RC</small></div><div style="font-size:13px;opacity:.85">উত্তোলনযোগ্য: <b>3.00 RC</b></div><div class="coin" style="width:70px;height:70px"><i style="width:56px;height:56px;font-size:28px">R</i></div></div>
+<div class="card row sp" style="padding:12px"><div class="row"><span>🛡</span><span style="font-size:14px">পেমেন্ট প্রসেসিং সময়: <b>১২ থেকে ২৪ ঘণ্টা</b> (অটো নোটিফিকেশন সহ)</span></div><span class="pill am" data-t="নিয়মাবলী">নিয়মাবলী</span></div>
+<div class="h">🏦 পেমেন্ট মেথড <span class="pill am">ফি: ২০৳ / প্রতি ৬০০ RC</span></div>
+<div class="pm" id="pm"><button class="on"><span class="lg" style="background:#E2136E">b</span><div><b>bKash</b><div class="mu" style="font-size:12px">Min. 600 RC</div></div></button><button><span class="lg" style="background:#F26722">ন</span><div><b>Nagad</b><div class="mu" style="font-size:12px">Min. 600 RC</div></div></button></div>
+<div class="card row sp"><div class="row"><div class="ic">👥</div><div><b>রেফারেল শর্ত: লোড হচ্ছে…</b><div class="mu">আপনার ভেরিফাইড রেফার: <b>০</b> জন</div></div></div><span class="pill am">লোড হচ্ছে…</span></div>
+<div><b style="font-size:15px;color:var(--am)">ক্যাশআউট রিসিভার নম্বর</b><input class="inp" style="margin-top:8px" placeholder="01XXXXXXXXX" inputmode="numeric" maxlength="11"></div>
+<div><div class="row sp"><b style="font-size:15px;color:var(--am)">উইথড্র অ্যামাউন্ট (RC)</b><span class="mu" style="color:var(--am)">মিনিমাম ৬০০ RC</span></div><div class="row" style="margin-top:8px;position:relative"><input class="inp" id="amt" placeholder="600" inputmode="numeric" style="padding-right:70px"><button class="pill am" id="all" style="position:absolute;right:10px;padding:8px 14px;font-weight:700">All</button></div></div>
+<div class="chips" id="chips"><button>600</button><button>1200</button><button>1800</button><button>2400</button><button>3000</button></div>
+<div class="card"><div class="row sp mu"><span>সার্ভিস ফি (প্রতি ৬০০ তে ২০৳):</span><span style="color:var(--rd);font-family:monospace" id="fee">- 0.00 ৳</span></div><div class="row sp" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)"><b style="color:var(--am)">আপনি নগদ পাবেন:</b><b class="sora" style="font-size:20px;color:var(--am)" id="net">0.00 ৳</b></div></div>
+<div class="card"><div class="row sp"><div class="row"><div class="ic">🛡</div><div><b>উইথড্রয়াল অ্যাড ভেরিফিকেশন</b><div class="mu" style="font-size:12px">১৫ সেকেন্ড অ্যাড দেখে উইথড্র বাটন আনলক করুন</div></div></div></div><button class="btn gn w" style="margin-top:10px" data-t="অ্যাড দেখুন">▶ অ্যাড দেখুন 🎬</button><div class="row sp mu" style="margin-top:10px"><span>অগ্রগতি: ০ / ৩ সম্পন্ন</span><span>লকড 🔒</span></div><div class="bar"><i style="width:0"></i></div><div style="color:var(--am);font-size:12px;margin-top:10px">⚠️ অ্যাড চলাকালীন ১৫ সেকেন্ড স্ক্রিন বা ট্যাব পরিবর্তন করবেন না।</div></div>
+<button class="btn gh w" style="padding:15px;opacity:.7" data-t="শর্ত পূরণ করুন">শর্ত পূরণ করুন 🔒</button>
+<button class="btn gh w" data-go="refer">👤+ রেফার করুন ও টিম বড় করুন</button>
+<div class="h">🕒 <span class="sora" style="font-size:15px;flex:1;margin-left:8px">WITHDRAWAL HISTORY</span><a style="color:var(--rd)" data-t="রিপোর্ট করুন">❓ টাকা পাননি? রিপোর্ট করুন</a></div>
+<div class="card empty"><div class="ic">🧾</div><b>এখনও কোনো উইথড্র করেননি</b><div class="mu">আপনার সমস্ত ক্যাশআউট রিকোয়েস্ট এখানে লাইভ দেখতে পাবেন।</div></div>
+</section>
+
+<section class="pg" id="profile">
+<div class="hd"><button class="sq" data-go="home">←</button><div class="ct"><b>ROYAL PROFILE</b><div class="mu" style="font-size:11px">সদস্য পরিচিতি ও কন্ট্রোল সেন্টার</div></div><button class="sq" data-t="রিফ্রেশ">⟳</button></div>
+<div class="card row" style="padding:18px"><div class="av" style="width:84px;height:84px;font-size:28px">OF</div><div><div style="font-weight:700;font-size:20px">Omor Faruk Sojol <span style="color:var(--ac)">✔</span></div><div class="mu" style="font-family:monospace">@omor_faruk_sojol</div><div class="row" style="margin:6px 0"><span class="pill am" style="font-family:monospace">Royal ID: #RC-894832</span><button class="sq" style="width:32px;height:32px;border-radius:10px" data-t="ID কপি হয়েছে">⧉</button></div><div class="row"><span class="pill gr">● Active Member</span><span class="pill">📅 সদস্য: ১ দিন</span></div></div></div>
+<div class="card"><div class="row sp"><div class="row"><div class="ic">🛡</div><div><b style="font-size:17px">Level 1 (প্রহরী)</b><div class="mu sora" style="color:var(--ac);font-size:11px;letter-spacing:.08em">ROYAL CHAIN RANK</div></div></div><button class="pill am" data-t="পদবী তালিকা">পদবী তালিকা ›</button></div><div class="row sp mu" style="margin-top:12px"><span>পরবর্তী পদবী: <b style="color:var(--tx)">সেনা (SOLDIER)</b></span><b style="color:var(--am);font-family:monospace">0 / 3 মেম্বার</b></div><div class="bar"><i style="width:8%"></i></div></div>
+<div class="bal"><div class="lb">TOTAL BALANCE 👁</div><div class="n">3.00 <small>RC</small></div><div style="font-size:13px;opacity:.85">উত্তোলনযোগ্য: <b>3.00 RC</b></div><button class="btn" style="position:absolute;right:16px;top:50%;margin:0;transform:translateY(-50%)" data-go="withdraw">👛 উইথড্র ›</button></div>
+<div class="card g4"><div class="st"><div class="ic" style="margin:0 auto 6px;width:36px;height:36px">👥</div><b>0</b><span class="mu" style="font-size:12px">মোট রেফার</span></div><div class="st"><div class="ic" style="margin:0 auto 6px;width:36px;height:36px">📅</div><b>0</b><span class="mu" style="font-size:12px">টাস্ক সম্পন্ন</span></div><div class="st"><div class="ic" style="margin:0 auto 6px;width:36px;height:36px">🎬</div><b>0</b><span class="mu" style="font-size:12px">বিজ্ঞাপন</span></div><div class="st"><div class="ic" style="margin:0 auto 6px;width:36px;height:36px">🪙</div><b style="color:var(--am)">3.00</b><span class="mu" style="font-size:12px">মোট RC</span></div></div>
+<div class="h">🕒 সাম্প্রতিক লেনদেন <a data-t="সব লেনদেন">সব দেখুন ›</a></div>
+<div class="card row"><div class="ic">🪙</div><div style="flex:1"><b>Signup Reward</b><div class="mu">ওয়েলকাম বোনাস ওয়ালেটে যুক্ত হয়েছে</div></div><div style="text-align:right"><b style="color:var(--gr)">+3.00 RC</b><div class="mu" style="font-size:11px">১০/১০/২০২৬, ০৩:১৫ PM</div></div></div>
+<div class="card"><div class="row sp" style="margin-bottom:10px"><div class="row"><div class="ic">🎟</div><b>প্রোমো কোড রিডিম করুন</b></div><span class="pill am">অফিসিয়াল কোড</span></div><div class="row"><input class="inp" style="font:500 14px 'Hind Siliguri'" placeholder="আপনার অফিসিয়াল প্রোমো কোড লিখুন…"><button class="btn" data-t="প্রোমো ক্লেইম">ক্লেইম</button></div></div>
+<div class="card ls" style="padding:4px 14px">
+<button class="it w" style="width:100%;text-align:left" data-t="অভিযোগ ও রিপোর্ট সেন্টার"><div class="ic" style="background:#2a1520">⚠️</div><div class="tx"><b>অভিযোগ ও রিপোর্ট সেন্টার</b><div class="mu">Fraud, Fake Account বা Payment সংক্রান্ত রিপোর্ট পাঠান</div></div>›</button>
+<button class="it" style="width:100%;text-align:left" data-t="কিভাবে কাজ করতে হয়?"><div class="ic" style="background:#2a2212">?</div><div class="tx"><b>কিভাবে কাজ করতে হয়?</b><div class="mu">টাস্ক, রেফারেল ও আয়ের নিয়মাবলী জানুন</div></div>›</button>
+<button class="it" style="width:100%;text-align:left" data-t="অ্যাকাউন্ট অ্যাক্টিভেশন ও লোন"><div class="ic">🛡</div><div class="tx"><b>অ্যাকাউন্ট অ্যাক্টিভেশন ও লোন</b><div class="mu">ডিপোজিট TrxID ও লোন ম্যানেজমেন্ট</div></div>›</button>
+<button class="it" style="width:100%;text-align:left" data-t="অফিসিয়াল টেলিগ্রাম চ্যানেল"><div class="ic" style="color:#2AABEE">✈</div><div class="tx"><b>অফিসিয়াল টেলিগ্রাম চ্যানেল</b><div class="mu">দৈনিক পেমেন্ট প্রুফ ও প্রমোশনাল নোটিশ</div></div>↗</button>
+<button class="it" style="width:100%;text-align:left" data-t="২৪/৭ কাস্টমার সাপোর্ট"><div class="ic" style="background:#0f2a26">🎧</div><div class="tx"><b>২৪/৭ কাস্টমার সাপোর্ট ডেস্ক</b><div class="mu">যেকোনো সমস্যা হলে অ্যাডমিনের সাথে চ্যাট করুন</div></div>›</button></div>
+<button class="card row sp" style="width:100%;text-align:left" id="secb"><div class="row"><div class="ic" style="background:#2a1520">🔒</div><div><b>অ্যাকাউন্ট সিকিউরিটি ও সেটিংস</b><div class="mu">ক্যাশ ক্লিয়ার, রিসেট ও ডেঞ্জার জোন</div></div></div><span id="secar">⌄</span></button>
+<div id="sec" style="display:none" class="card"><div class="g3" style="grid-template-columns:1fr 1fr"><button class="btn gh" data-t="ক্যাশ ক্লিয়ার">ক্যাশ ক্লিয়ার</button><button class="btn gh" style="color:var(--rd)" data-t="অ্যাকাউন্ট রিসেট">রিসেট</button></div></div>
+<div style="text-align:center;padding:8px 0"><span class="pill am sora" style="letter-spacing:.06em">👑 POWERED BY ROYAL CHAIN</span><div class="mu" style="font-size:11px;margin-top:8px;font-family:monospace">Royal Time RC Core Engine · v5.0</div></div>
+</section>
+
+</main>
+<div id="toast"></div>
+<nav id="nav"><button class="on" data-go="home"><span>🏠</span>Home</button><button data-go="earn"><span>📥</span>Earn</button><button data-go="refer"><span>👥</span>Refer</button><button data-go="withdraw"><span>💳</span>Withdraw</button><button data-go="profile"><span>👤</span>Profile</button></nav>
 </div>
-
-<div class="hero">
-  <div class="hero-tag">🔥 Live Tasks</div>
-  <h2>Complete Tasks,<br>Earn Real Money!</h2>
-  <p>প্রতিদিন টাস্ক করুন এবং আয় করুন</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="hero-stat-val" id="totalTasks">10</div><div class="hero-stat-label">Total Tasks</div></div>
-    <div class="hero-stat"><div class="hero-stat-val" id="doneTasks">0</div><div class="hero-stat-label">Completed</div></div>
-    <div class="hero-stat"><div class="hero-stat-val" id="pendingTasks">10</div><div class="hero-stat-label">Remaining</div></div>
-  </div>
-</div>
-
-<div class="section-title">📋 Today's Tasks</div>
-<div class="cards-grid" id="cards"></div>
-
-<div class="bottom-notice">
-  <div class="notice-dot"></div>
-  <span>⚠️ টাস্ক করতে <strong>অ্যাপ ডাউনলোড করতে হবে</strong> — না হলে কাজ রিজেক্ট হবে!</span>
-</div>
-
-<div class="overlay" id="taskOverlay">
-  <div class="modal">
-    <div class="modal-drag"></div>
-    <div class="modal-header">
-      <div class="modal-icon" id="modalIcon">📱</div>
-      <div>
-        <div class="modal-title" id="modalTitle">Task শুরু করুন</div>
-        <div class="modal-sub">নিচের নির্দেশনা মনোযোগ দিয়ে পড়ুন</div>
-      </div>
-    </div>
-    <div class="warning-box">
-      <div class="warning-icon">⚠️</div>
-      <div class="warning-text">
-        <strong>গুরুত্বপূর্ণ নোটিশ!</strong><br>
-        লিংকে প্রবেশ করার পর যদি কোনো <strong>অ্যাপ ডাউনলোড</strong> করতে বলে, তাহলে <strong>অবশ্যই ডাউনলোড করুন।</strong> অন্যথায় আপনার কাজ <strong>রিজেক্ট</strong> হয়ে যাবে এবং পেমেন্ট পাবেন না।
-      </div>
-    </div>
-    <div class="danger-box">
-      <div class="warning-icon">🚫</div>
-      <div class="danger-text">
-        <strong>অ্যাপ ডাউনলোড না করলে:</strong><br>
-        ✗ Task Rejected হবে<br>
-        ✗ Payment দেওয়া হবে না<br>
-        ✗ Account Suspend হতে পারে
-      </div>
-    </div>
-    <div class="steps-box">
-      <div class="steps-title">✅ কীভাবে কাজ করবেন</div>
-      <div class="step-item"><div class="step-num">1</div><div class="step-text">"Open Task" বাটনে ক্লিক করুন</div></div>
-      <div class="step-item"><div class="step-num">2</div><div class="step-text">লিংক খুললে পেজটি ভালোভাবে দেখুন</div></div>
-      <div class="step-item"><div class="step-num">3</div><div class="step-text">অ্যাপ ডাউনলোড করতে বললে <strong>অবশ্যই ডাউনলোড করুন</strong></div></div>
-      <div class="step-item"><div class="step-num">4</div><div class="step-text">ডাউনলোড হলে ফিরে আসুন ও পরের টাস্ক করুন</div></div>
-    </div>
-    <button class="btn-open" id="openTaskBtn">🚀 Open Task Now</button>
-    <button class="btn-cancel" onclick="closeTaskModal()">বাতিল করুন</button>
-  </div>
-</div>
-
-<div class="pw-overlay" id="pwOverlay">
-  <div class="pw-box">
-    <div class="pw-title">🔐 Admin Login</div>
-    <input type="password" id="passwordInput" class="pw-input" placeholder="Password লিখুন...">
-    <button class="pw-btn" onclick="checkPassword()">Login করুন</button>
-  </div>
-</div>
-
-<div id="adminPanel">
-  <div class="admin-card">
-    <div class="admin-title">Admin Panel</div>
-    <div id="linkInputs"></div>
-    <button class="admin-add-btn" onclick="addLink()">+ নতুন লিংক যোগ করুন</button>
-    <button class="admin-save-btn" onclick="saveSettings()">Save Settings</button>
-  </div>
-</div>
-
 <script>
-const PASSWORD="153781";
-const DEFAULT_LINKS=["https://omg10.com/4/10915711","https://omg10.com/4/10096410","https://omg10.com/4/10907977","https://omg10.com/4/10137060","https://omg10.com/4/10942880","https://omg10.com/4/10909412","https://omg10.com/4/10187474","https://omg10.com/4/10123818","https://omg10.com/4/10942879","https://omg10.com/4/10963664"];
-const ICONS=["📱","💎","🎯","🔥","⚡","🎁","💰","🏆","🌟","✨"];
-let pendingLink=null,pendingKey=null;
-
-function getLinks(){const s=localStorage.getItem("links");if(s){const p=JSON.parse(s);if(p&&p.length>0)return p;}return DEFAULT_LINKS;}
-
-function openTaskModal(link,key,idx){pendingLink=link;pendingKey=key;document.getElementById("modalIcon").textContent=ICONS[idx]||"📱";document.getElementById("modalTitle").textContent="Task "+(idx+1)+" শুরু করুন";document.getElementById("taskOverlay").classList.add("show");}
-
-function closeTaskModal(){document.getElementById("taskOverlay").classList.remove("show");pendingLink=null;pendingKey=null;}
-
-document.getElementById("openTaskBtn").onclick=()=>{if(!pendingLink)return;window.open(pendingLink,"_blank");localStorage.setItem(pendingKey,Date.now());closeTaskModal();location.reload();};
-
-document.getElementById("taskOverlay").addEventListener("click",function(e){if(e.target===this)closeTaskModal();});
-
-function renderCards(){
-  const container=document.getElementById("cards");
-  container.innerHTML="";
-  const links=getLinks();
-  let done=0;
-  links.forEach((link,i)=>{
-    const key="btn_"+i;
-    const last=localStorage.getItem(key);
-    const now=Date.now();
-    let locked=false,remaining=0;
-    if(last){const diff=now-parseInt(last);if(diff<86400000){locked=true;remaining=86400000-diff;}}
-    if(locked)done++;
-    const card=document.createElement("div");
-    card.className="task-card";
-    card.innerHTML='<div class="task-num">Task '+(i+1)+'</div><div class="task-icon">'+(ICONS[i]||"💰")+'</div><div class="task-label">Task '+(i+1)+'</div><div class="task-reward">Complete & Earn</div>';
-    const btn=document.createElement("button");
-    if(locked){
-      btn.className="btn-locked";
-      let rem=remaining;
-      function tick(){const h=Math.floor(rem/3600000);const m=Math.floor((rem%3600000)/60000);const s=Math.floor((rem%60000)/1000);btn.textContent="🔒 "+h+"h "+m+"m "+s+"s";rem-=1000;if(rem<=0)location.reload();}
-      tick();setInterval(tick,1000);
-    }else{
-      btn.className="btn-start";
-      btn.textContent="▶ Start Task";
-      btn.onclick=()=>openTaskModal(link,key,i);
-    }
-    card.appendChild(btn);
-    container.appendChild(card);
-  });
-  document.getElementById("totalTasks").textContent=links.length;
-  document.getElementById("doneTasks").textContent=done;
-  document.getElementById("pendingTasks").textContent=links.length-done;
-}
-
-function saveSettings(){const inputs=document.querySelectorAll(".admin-input");const links=[...inputs].map(i=>i.value.trim()).filter(Boolean);localStorage.setItem("links",JSON.stringify(links));alert("Saved!");location.reload();}
-function addLink(){const c=document.getElementById("linkInputs");const inp=document.createElement("input");inp.placeholder="লিংক লিখুন...";inp.className="admin-input";c.appendChild(inp);}
-function renderAdmin(){const c=document.getElementById("linkInputs");c.innerHTML="";getLinks().forEach(link=>{const inp=document.createElement("input");inp.value=link;inp.className="admin-input";c.appendChild(inp);});}
-function checkPassword(){const val=document.getElementById("passwordInput").value;if(val===PASSWORD){document.getElementById("pwOverlay").classList.remove("show");document.getElementById("adminPanel").style.display="block";renderAdmin();}else{alert("ভুল পাসওয়ার্ড");}}
-
-let clicks=0;
-document.getElementById("profileBtn").onclick=()=>{clicks++;if(clicks===5)document.getElementById("pwOverlay").classList.add("show");};
-
-renderCards();
-</script>
-</body>
-</html>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function go(p){$$('.pg').forEach(e=>e.classList.toggle('on',e.id===p));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));$('main').scrollTop=0}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1600)}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){go(g.dataset.go);return}const t=e.target.closest('[data-t]');if(t)toast(t.dataset.t+' — পরে কাজ করবে')});
+$$('#tabs button').forEach(b=>b.onclick=()=>{$$('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
+$$('#pm button').forEach(b=>b.onclick=()=>{$$('#pm button').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
+function calc(){const v=parseInt($('#amt').value)||0,f=Math.floor(v/600)*20;$('#fee').textContent='- '+f.toFixed(2)+' ৳';$('#net').textContent='0.00 ৳'}
+$('#amt').oninput=calc;
+$$('#chips button').forEach(b=>b.onclick=()=>{$('#amt').value=b.textContent;calc()});
+$('#all').onclick=()=>{$('#amt').value=3;calc()};
+$('#secb').onclick=()=>{const s=$('#sec'),o=s.style.display==='none';s.style.display=o?'block':'none';$('#secar').textContent=o?'⌃':'⌄'};
+</script></body></html>
