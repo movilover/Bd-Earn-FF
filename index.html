@@ -133,6 +133,37 @@ nav button.on span{animation:navp .45s cubic-bezier(.3,1.6,.5,1)}
 .bar i{background-size:200% 100%;animation:barS 2.4s linear infinite}@keyframes barS{to{background-position:-200% 0}}
 .alert{animation:alp 3s ease-in-out infinite}@keyframes alp{50%{box-shadow:0 0 0 3px #ff5d7322,0 10px 28px #d6284f55}}
 @media(prefers-reduced-motion:reduce){.cn3,.hlc .ic,.bar i,.alert,.anim>*{animation:none!important}}
+
+/* ===== v9: compact sizes ===== */
+body{font-size:14px}
+.btn{padding:8px 14px;font-size:14px;border-radius:12px;box-shadow:0 4px 12px #1fca8d33,inset 0 1px 0 #ffffff88,inset 0 -2px 0 #127250}
+.btn.au{box-shadow:0 4px 12px #f5c45133,inset 0 1px 0 #fff9,inset 0 -2px 0 #a8730b}
+.ic{width:34px;height:34px;border-radius:11px;font-size:16px}
+.ic svg{width:18px;height:18px}
+.card{padding:11px;border-radius:15px}
+.card.row{gap:10px}
+.qa{padding:8px 2px;border-radius:13px;font-size:12px}.qa .ic{margin:0 auto 4px}.qa small{font-size:10px}
+.g3,.g4{gap:7px}
+.bal{padding:14px;border-radius:18px}
+.bal .n{font-size:30px}
+.h{font-size:15px}
+.pill{font-size:11px;padding:3px 8px}
+nav{padding:5px 6px calc(5px + env(safe-area-inset-bottom,0px))}
+nav button{font-size:11px;gap:1px}
+nav button span{width:40px;height:26px;font-size:17px;border-radius:10px}
+nav button span svg{width:19px;height:19px}
+.alert{padding:11px;border-radius:15px}
+.alert .btn{padding:7px 12px;font-size:13px}
+.c3d{width:46px;height:46px}.cn3 b{font-size:20px;box-shadow:inset 0 0 0 3px #ffe08a,inset 0 0 0 5px #c98a12}
+.bonusc .btn{padding:7px 12px}
+.tabs button{padding:6px 11px;font-size:13px}
+.task .ic{width:34px;height:34px}
+input,select,textarea{font-size:14px}
+header .av,.av{width:46px;height:46px;font-size:17px}
+.fx{width:96px;height:74px;margin-top:-37px}
+.bal .n{font-size:26px}
+.bal .btn{padding:6px 12px}
+@media(min-width:520px){#app{max-width:480px;margin:0 auto}}
 </style></head><body><div id="app"><main id="m"><div class="empty mu">লোড হচ্ছে…</div></main>
 <nav id="nav"></nav>
 <div id="toast"></div><div id="modal"></div></div>
@@ -169,6 +200,7 @@ const fxh=()=>FX.replace('ROYAL',esc(String(cfg.siteName||'').slice(0,9).toUpper
 const gated=()=>!!cfg.tgOnly&&!TG?.initDataUnsafe?.user;
 const gateH=()=>`<div class="card empty" style="margin-top:18vh;padding:30px 18px"><div class="ic" style="margin:0 auto 14px;width:64px;height:64px;font-size:30px">✈</div><b style="font-size:19px">${esc(cfg.siteName)}</b><div class="mu" style="margin:8px 0 16px">এই সাইট শুধু টেলিগ্রাম বটের মাধ্যমে ব্যবহার করা যাবে।</div><button class="btn tg w" data-a="url:https://t.me/${esc(cfg.bot)}${ref0?'?start=ref_'+esc(ref0):''}">✈ টেলিগ্রামে ওপেন করুন</button></div>`;
 const avR=()=>Math.max(0,(S.u.refs||0)-(S.u.refUsed||0)),wNeed=()=>(cfg.wRefEach!==false||!(S.u.wdN>0))?(+cfg.wRefs||0):0;
+const lostH=()=>`<div class="card empty" style="margin-top:12vh;padding:26px 16px"><div class="ic" style="margin:0 auto 12px;width:60px;height:60px;font-size:28px">🔐</div><b style="font-size:18px">একাউন্ট পুনরুদ্ধার দরকার</b><div class="mu" style="margin:8px 0 14px;line-height:1.7">এই ডিভাইসে আপনার লগইন ডেটা নতুন। আপনার ব্যালেন্স ও সব তথ্য নিরাপদ আছে। পুনরুদ্ধার অনুরোধ পাঠান, অ্যাডমিন যাচাই করে চালু করে দেবেন।</div><button class="btn au w" data-a="recover">📨 অনুরোধ পাঠান</button><button class="btn gh w" style="margin-top:10px" data-a="go:help">🎧 হেল্পলাইনে নক দিন</button></div>`;
 const wdOk=n=>{const u=S.u;return !!(u.active&&avR()>=wNeed()&&!(u.loanDue>0)&&S.wv>=cfg.wAds&&u.rc>=cfg.minW&&n>=cfg.minW&&n<=u.rc)};
 /*brand*/const HT={tg:['✈','#229ED9','টেলিগ্রাম'],wa:['W','#25D366','হোয়াটসঅ্যাপ'],ms:['M','#0084FF','মেসেঞ্জার'],fb:['f','#1877F2','ফেসবুক'],call:['☎','#16a34a','ফোন কল'],mail:['@','#ea580c','ইমেইল'],link:['↗','#6b7280','লিংক']};
 const lgx=(x,z=46)=>{const t=HT[x.type]||HT.link;return`<span class="lg" style="width:${z}px;height:${z}px;background:${t[1]};font-size:${Math.round(z*.45)}px">${t[0]}</span>`};
@@ -206,7 +238,7 @@ refer(){const u=S.u,pend=S.team.length;return`${hd('REFER &amp; EARN','রেফ
 ${(()=>{const av=avR(),an=+cfg.actRefs||10,wn=wNeed();return`<div class="card"><div class="row sp"><div class="row"><div class="ic">📈</div><div><b>আপনার নতুন (অব্যবহৃত) রেফার: ${B(av)} জন</b><div class="mu">মোট ${B(u.refs||0)} · ব্যবহৃত ${B(u.refUsed||0)}</div></div></div></div></div>
 <div class="card"><div class="row sp"><div class="row"><div class="ic">${u.active?'🔓':'🔒'}</div><div><b>একটিভেশন: ${B(an)} জন রেফার</b><div class="mu">${u.active?'আপনার একাউন্ট একটিভ ✓':'টাকা না দিয়ে ফ্রি একটিভ করতে'}</div></div></div><span class="pill au">${u.active?'সম্পন্ন':B(Math.max(0,an-av))+' জন বাকি'}</span></div><div class="bar"><i style="width:${u.active?100:Math.min(100,av/an*100)}%"></i></div></div>
 <div class="card"><div class="row sp"><div class="row"><div class="ic">${av>=wn&&wn?'🔓':'🔒'}</div><div><b>উইথড্র: ${wn?B(wn)+' জন নতুন রেফার':'কোনো রেফার শর্ত নেই'}</b><div class="mu">${cfg.wRefEach!==false?'প্রতিটি উইথড্রের জন্য আলাদা নতুন রেফার লাগবে':'শুধু প্রথম উইথড্রে রেফার লাগবে'}</div></div></div><span class="pill au">${wn?B(Math.max(0,wn-av))+' জন বাকি':'✓'}</span></div><div class="bar"><i style="width:${wn?Math.min(100,av/wn*100):100}%"></i></div></div>`})()}
-<div class="card"><div class="mu gc" style="font-weight:600;margin-bottom:10px">🔗 আপনার ${esc(cfg.siteName)} রেফারেল লিংক</div><div class="lk"><code>${link()}</code><button class="btn" style="padding:9px 14px" data-a="copy">⧉ Copy</button></div><button class="btn tg w" style="margin-top:12px;padding:14px" data-a="tgshare">✈ টেলিগ্রাম বন্ধুদের ইনভাইট করুন</button><div class="g3" style="margin-top:10px;grid-template-columns:1fr 1fr"><button class="btn gh" data-a="wa">WhatsApp</button><button class="btn gh" data-a="fb">Facebook</button><button class="btn gh" data-a="igs">Instagram</button><button class="btn gh" data-a="more">More</button></div></div>
+<div class="card"><div class="mu gc" style="font-weight:600;margin-bottom:10px">🔗 আপনার ${esc(cfg.siteName)} রেফারেল লিংক</div><div class="mu" style="margin:-4px 0 8px">ইনভাইট কোড: <b class="gc sora">${esc(String(cfg.siteName).replace(/[^A-Za-z0-9]/g,'').toUpperCase()||'REF')}-${ID}</b></div><div class="lk"><code>${link()}</code><button class="btn" style="padding:9px 14px" data-a="copy">⧉ Copy</button></div><button class="btn tg w" style="margin-top:12px;padding:14px" data-a="tgshare">✈ টেলিগ্রাম বন্ধুদের ইনভাইট করুন</button><div class="g3" style="margin-top:10px;grid-template-columns:1fr 1fr"><button class="btn gh" data-a="wa">WhatsApp</button><button class="btn gh" data-a="fb">Facebook</button><button class="btn gh" data-a="igs">Instagram</button><button class="btn gh" data-a="more">More</button></div></div>
 <div class="g3">${[['👥',pend,'মোট রেফার'],['✅',u.refs,'সক্রিয় মেম্বার'],['🪙',fmt(u.refEarn),'মোট RC আয়']].map(x=>`<div class="card st"><div class="ic" style="margin:0 auto 6px;width:34px;height:34px">${x[0]}</div><b>${x[1]}</b><span class="mu">${x[2]}</span></div>`).join('')}</div>
 <div class="h">👥 আপনার রেফারেল টিম <span class="mu sora">${pend} Members</span></div>
 ${pend?`<div class="card" style="padding:4px 14px">${S.team.map(t=>`<div class="it"><div class="ic">👤</div><div class="tx"><b>${esc(t.name)}</b></div><span class="pill ${t.active?'gr':'au'}">${t.active?'Active':'Pending'}</span></div>`).join('')}</div>`:`<div class="card empty"><div class="ic">➕</div><b>এখনও কোনো বন্ধু জয়েন করেনি</b><div class="mu">রেফারেল লিংক শেয়ার করে টিম তৈরি করুন।</div></div>`}`},
@@ -234,9 +266,9 @@ ${bal('TOTAL BALANCE','<button class="btn" data-a="go:withdraw" style="position:
 <div class="card g4">${[['👥',S.team.length,'মোট রেফার'],['📅',u.tasks,'টাস্ক সম্পন্ন'],['🎬',u.ads,'বিজ্ঞাপন'],['🪙',fmt(u.rc),'মোট RC']].map(x=>`<div class="st"><div class="ic" style="margin:0 auto 6px;width:36px;height:36px">${x[0]}</div><b style="font-size:17px">${x[1]}</b><span class="mu" style="font-size:12px">${x[2]}</span></div>`).join('')}</div>
 <div class="h">🕒 সাম্প্রতিক লেনদেন <a data-a="txall">সব দেখুন ›</a></div>${S.tx.slice(0,2).map(tx1).join('')||'<div class="card empty mu">কোনো লেনদেন নেই</div>'}
 <div class="card"><div class="row sp" style="margin-bottom:10px"><div class="row"><div class="ic">🎟</div><b>প্রোমো কোড রিডিম করুন</b></div><span class="pill au">অফিসিয়াল কোড</span></div><div class="row"><input id="promo" class="inp" style="font:500 14px 'Hind Siliguri'" placeholder="আপনার অফিসিয়াল প্রোমো কোড লিখুন…"><button class="btn au" data-a="promo">ক্লেইম</button></div></div>
-<div class="card" style="padding:4px 14px">${[['⚠️','অভিযোগ ও রিপোর্ট সেন্টার','Fraud, Fake Account বা Payment রিপোর্ট পাঠান','report'],['?','কিভাবে কাজ করতে হয়?','টাস্ক, রেফারেল ও আয়ের নিয়মাবলী জানুন','how'],['🛡','অ্যাকাউন্ট অ্যাক্টিভেশন','পেমেন্ট বা রেফারের মাধ্যমে একটিভ করুন','go:act'],['✈','অফিসিয়াল টেলিগ্রাম চ্যানেল','দৈনিক পেমেন্ট প্রুফ ও নোটিশ','tgch'],['🎧','হেল্পলাইন সাপোর্ট ডেস্ক','টেলিগ্রাম, হোয়াটসঅ্যাপ ও ফোনে নক দিন','sup']].map(x=>`<button class="it" data-a="${x[3]}"><div class="ic">${x[0]}</div><div class="tx"><b>${x[1]}</b><div class="mu">${x[2]}</div></div>›</button>`).join('')}</div>
+<div class="card" style="padding:4px 14px">${[['⚠️','অভিযোগ ও রিপোর্ট সেন্টার','Fraud, Fake Account বা Payment রিপোর্ট পাঠান','report'],['?','কিভাবে কাজ করতে হয়?','টাস্ক, রেফারেল ও আয়ের নিয়মাবলী জানুন','how'],['🛡','অ্যাকাউন্ট অ্যাক্টিভেশন','পেমেন্ট বা রেফারের মাধ্যমে একটিভ করুন','go:act'],['✈','অফিসিয়াল টেলিগ্রাম চ্যানেল','দৈনিক পেমেন্ট প্রুফ ও নোটিশ','tgch'],['🎧','হেল্পলাইন সাপোর্ট ডেস্ক','টেলিগ্রাম, হোয়াটসঅ্যাপ ও ফোনে নক দিন','sup']].concat((cfg.links||[]).filter(x=>x.on&&x.u).map((x,i)=>[x.e||'🔗',x.n,'ক্লিক করে খুলুন','cl:'+i])).map(x=>`<button class="it" data-a="${x[3]}"><div class="ic">${x[0]}</div><div class="tx"><b>${x[1]}</b><div class="mu">${x[2]}</div></div>›</button>`).join('')}</div>
 <div class="card"><button class="row sp w" style="width:100%" data-a="sec"><div class="row"><div class="ic">🔒</div><div style="text-align:left"><b>অ্যাকাউন্ট সিকিউরিটি ও সেটিংস</b><div class="mu">ক্যাশ ক্লিয়ার ও রিফ্রেশ</div></div></div>⌄</button></div>
-<div style="text-align:center"><span class="pill au sora">👑 ${esc(cfg.siteName)}</span><div class="mu sora" style="font-size:11px;margin-top:8px">${esc(cfg.siteName)} · v8${S.off?` · ⚠ সার্ভার সংযোগ নেই (${esc(S.err||'')})`:''}</div></div>`},
+<div style="text-align:center"><span class="pill au sora">👑 ${esc(cfg.siteName)}</span><div class="mu sora" style="font-size:11px;margin-top:8px">${esc(cfg.siteName)} · v9${S.off?` · ⚠ সার্ভার সংযোগ নেই (${esc(S.err||'')})`:''}</div></div>`},
 topup(){return`${hd('TOP-UP','ফ্রি ফায়ার ও পাবজি টপআপ')}<div class="card empty" style="padding:30px 16px"><div class="ic" style="margin:0 auto 12px;width:64px;height:64px;font-size:30px">🎮</div><b style="font-size:18px">ফ্রি ফায়ার ও পাবজি টপআপ</b><div class="mu" style="margin:8px 0 14px">এই সেকশনটি খুব শীঘ্রই চালু হচ্ছে।</div><span class="pill au">🚧 COMING SOON</span><button class="btn au w" style="margin-top:16px" data-a="go:help">🎧 হেল্পলাইনে জানতে চান</button></div>`},
 act(){const pe=S.pays.find(p=>p.status=='pending'),rj=S.pays.filter(p=>p.status=='rejected').sort((a,b)=>b.at-a.at)[0];return`${hd('ACTIVATION','ID: #RC-'+ID)}
 <div class="card" style="text-align:center;padding:22px"><div class="ic" style="margin:0 auto 12px;width:56px;height:56px;font-size:26px">⚡</div><b style="font-size:18px">অ্যাকাউন্ট ভেরিফিকেশন ও সক্রিয়করণ</b><div class="mu" style="margin:8px 0 16px">ক্যাশআউট, টাস্ক ও আনলিমিটেড ভিডিও ইনকাম আনলক করতে নিচের যেকোনো একটি পদ্ধতি বেছে নিন।</div><div class="row sp card" style="background:#08140f"><span class="mu sora">ONE-TIME FEE</span><b class="sora" style="font-size:24px;color:var(--au)">৳${fmt(cfg.fee)}</b></div></div>
@@ -258,10 +290,10 @@ return`${hd('HELPLINE',esc(h.hours||'হেল্পলাইন'))}
 <div class="h"><span>📲 যেকোনো মাধ্যমে নক দিন</span></div>
 ${its.length?its.map(x=>`<button class="card row" style="width:100%;text-align:left" data-a="hl:${esc(x.id)}">${lgx(x)}<div style="flex:1;min-width:0"><b style="font-size:16px">${esc(x.name)}</b><div class="mu">${esc(x.desc||HT[x.type]?.[2]||'')}</div></div><span class="pill gr">নক দিন ›</span></button>`).join(''):'<div class="card empty mu">অ্যাডমিন এখনো কোনো হেল্পলাইন চ্যানেল চালু করেননি। নিচের ফর্মে মেসেজ পাঠান।</div>'}
 <div class="h"><span>✉️ সরাসরি মেসেজ পাঠান</span></div>
-<div class="card"><div class="mu" style="margin-bottom:8px">সমস্যার ধরন বেছে নিন</div><div class="tabs">${h.topics.map((t,i)=>`<button class="${i==tc?'on':''}" data-a="hlt:${i}">${esc(t)}</button>`).join('')}</div><textarea id="hlm" class="inp" rows="4" style="margin-top:10px;font:500 15px 'Hind Siliguri'" placeholder="আপনার সমস্যা বিস্তারিত লিখুন (TrxID থাকলে দিন)">${esc(S.hlm||'')}</textarea><button class="btn au w" style="margin-top:10px" data-a="hlsend">📨 মেসেজ পাঠান</button></div>
+<div class="card"><div class="mu" style="margin-bottom:8px">সমস্যার ধরন বেছে নিন</div><div class="tabs">${h.topics.map((t,i)=>`<button class="${i==tc?'on':''}" data-a="hlt:${i}">${esc(t)}</button>`).join('')}</div><textarea id="hlm" maxlength="900" class="inp" rows="4" style="margin-top:10px;font:500 15px 'Hind Siliguri'" placeholder="আপনার সমস্যা বিস্তারিত লিখুন (TrxID থাকলে দিন)">${esc(S.hlm||'')}</textarea><button class="btn au w" style="margin-top:10px" data-a="hlsend">📨 মেসেজ পাঠান</button></div>
 ${(h.faq||[]).length?`<div class="h"><span>❓ সাধারণ প্রশ্ন</span></div>${h.faq.map(f=>`<details class="card faq"><summary><b>${esc(f.q)}</b></summary><div class="mu" style="margin-top:8px;line-height:1.7">${esc(f.a)}</div></details>`).join('')}`:''}`};
 const u_active=()=>S.u.active;
-function draw(){if(!S.u)return;const m=$('#m'),y=m.scrollTop;try{m.innerHTML=skin(gated()?gateH():S.u.banned?'<div class="card empty"><b>🚫 আপনার অ্যাকাউন্ট ব্লক করা হয়েছে</b><div class="mu">সাপোর্টে যোগাযোগ করুন।</div></div>':P[S.P]())}catch(e){console.error(e);m.innerHTML='<div class="card">Render error: '+esc(e.message)+'</div>'}m.scrollTop=y;m.classList.remove('anim');if(S.an){void m.offsetWidth;m.classList.add('anim');S.an=0}cu();$('#nav').style.display=gated()?'none':'';document.title=cfg.siteName;const par={act:'profile',fame:'home',help:'profile'}[S.P]||S.P;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===par))}
+function draw(){if(!S.u)return;const m=$('#m'),y=m.scrollTop;try{m.innerHTML=skin(gated()?gateH():S.lost?lostH():S.u.banned?'<div class="card empty"><b>🚫 আপনার অ্যাকাউন্ট ব্লক করা হয়েছে</b><div class="mu">সাপোর্টে যোগাযোগ করুন।</div></div>':P[S.P]())}catch(e){console.error(e);m.innerHTML='<div class="card">Render error: '+esc(e.message)+'</div>'}m.scrollTop=y;m.classList.remove('anim');if(S.an){void m.offsetWidth;m.classList.add('anim');S.an=0}cu();$('#nav').style.display=gated()?'none':'';document.title=cfg.siteName;const par={act:'profile',fame:'home',help:'profile'}[S.P]||S.P;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===par))}
 const cu=()=>{const e=[...document.querySelectorAll('.cu')];if(!e.length||!S.u)return;const to=+S.u.rc||0,from=S.lastRc==null?to:S.lastRc;S.lastRc=to;if(from===to||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/700),v=from+(to-from)*(1-Math.pow(1-k,3));e.forEach(x=>{x.textContent=fmt(v)});if(k<1)requestAnimationFrame(f)})(t0)};
 const go=p=>{S.P=p;S.an=1;if(p=='withdraw'&&!M().some(x=>x.id==S.pm))S.pm=(M()[0]||{}).id;$('#m').scrollTop=0;if(p=='withdraw')loadWd();draw()};
 async function loadWd(){}
@@ -297,9 +329,11 @@ await b.commit();S.jc='';burst();toast('🎉 +'+n+' RC যোগ হয়েছ
  sync:()=>{draw();toast('আপডেট হয়েছে ✓')},cid:()=>{navigator.clipboard?.writeText('RC-'+ID);toast('ID কপি হয়েছে')},
  copy:()=>{navigator.clipboard?.writeText(link());toast('লিংক কপি হয়েছে')},
  tgshare:()=>open(`https://t.me/share/url?url=${encodeURIComponent(link())}&text=${encodeURIComponent(cfg.siteName+'-এ জয়েন করে আয় শুরু করুন!')}`),
- wa:()=>window.open('https://wa.me/?text='+encodeURIComponent(link()),'_blank'),fb:()=>window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(link()),'_blank'),
- more:()=>navigator.share?navigator.share({url:link()}):A.copy(),
+ wa:()=>window.open('https://wa.me/?text='+encodeURIComponent(cfg.siteName+' — আমার লিংক দিয়ে জয়েন করুন ও আয় শুরু করুন 💰\n'+link()),'_blank'),fb:()=>window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(link()),'_blank'),
+ more:()=>navigator.share?navigator.share({title:cfg.siteName,text:cfg.siteName+' — জয়েন করে আয় শুরু করুন 💰',url:link()}).catch(()=>{}):A.copy(),
  tgch:()=>/your/.test(cfg.tg)?toast('চ্যানেল লিংক সেট করা হয়নি'):open(cfg.tg),sup:()=>go('help'),
+cl:i=>{const x=(cfg.links||[]).filter(y=>y.on&&y.u)[+i];if(x)open(/^https?:/i.test(x.u)?x.u:'https://'+x.u)},
+recover:async()=>{if(Date.now()-(S.lastRec||0)<60000)return toast('অনুরোধ আগেই পাঠানো হয়েছে');S.lastRec=Date.now();await addDoc(collection(db,'reports'),{uid:ID,name:S.u.name,type:'RECOVER',msg:'একাউন্ট পুনরুদ্ধার অনুরোধ — ব্যালেন্স '+fmt(S.u.rc)+' RC',owner:auth.currentUser.uid,at:Date.now()});toast('অনুরোধ পাঠানো হয়েছে ✓')},
 hlt:v=>{S.hlm=$('#hlm')?.value||S.hlm;S.hlt=+v;draw()},
 hl:id=>{const h=HLx(),x=h.items.find(y=>y.id===id);if(!x)return;const v=String(x.value||'').trim(),tp=h.topics[Math.min(+S.hlt||0,h.topics.length-1)],txt=`[${cfg.siteName}] ID: RC-${ID} | ${S.u.name} | ${tp}\n`,e=encodeURIComponent(txt),http=/^https?:/i.test(v);let u='';
  if(x.type=='tg'){u=http?v:'https://t.me/'+v.replace(/^@/,'');if(/t\.me\//.test(u)&&!/\?/.test(u))u+='?text='+e}
@@ -324,7 +358,7 @@ hlsend:async()=>{const m=($('#hlm')?.value||'').trim(),h=HLx(),tp=h.topics[Math.
  loan:async()=>{try{await updateDoc(uref,{active:true,loanTaken:true,loanDue:cfg.loan});modal();toast('একাউন্ট সক্রিয় হয়েছে ✓')}catch(e){toast('লোন পাওয়া যায়নি')}},
  promo:async()=>{const c=$('#promo').value.trim().toUpperCase();if(!c)return;const p=await getDoc(doc(db,'promos',c));if(!p.exists()||p.data().on===false)return toast('কোড সঠিক নয়');if((S.u.usedPromos||[]).includes(c))return toast('এই কোড আগেই ব্যবহার হয়েছে');try{await updateDoc(uref,{usedPromos:[...(S.u.usedPromos||[]),c],rc:increment(p.data().rc)});addDoc(collection(uref,'tx'),{t:'Promo Code',d:c,n:p.data().rc,at:Date.now()});burst(14);toast(`+${p.data().rc} RC ✓`)}catch(e){toast('কোড ব্যবহার করা যায়নি')}},
  notif:async()=>{const n=S.nt||[];localStorage.seen=Date.now();draw();modal(`<div class="row sp"><div class="row"><div class="ic">🔔</div><div><b>নোটিফিকেশন সেন্টার</b><div class="mu">সর্বশেষ আপডেট ও জরুরি নোটিশ</div></div></div><button class="sq" data-a="x">✕</button></div>${S.u.active?'':'<div class="card"><b>অ্যাকাউন্ট ভেরিফিকেশন পেন্ডিং</b><div class="mu">একাউন্ট সক্রিয় করে বোনাস আনলক করুন।</div></div>'}<div class="card"><b>দৈনিক বোনাস সুযোগ</b><div class="mu">প্রতি ২৪ ঘণ্টায় বিনামূল্যে ${cfg.bonus} RC ক্লেইম করুন।</div></div>${n.map(x=>`<div class="card"><b>${esc(x.title)}</b><div class="mu">${esc(x.text)}</div></div>`).join('')}<button class="btn gh w" data-a="x">সবগুলো পঠিত হিসেবে চিহ্নিত করুন</button>`)},
- report:()=>modal(`<b style="font-size:17px">⚠️ অভিযোগ ও রিপোর্ট</b><select id="rt" class="inp"><option>Payment পাইনি</option><option>Fake Account</option><option>Fraud</option><option>অন্যান্য</option></select><textarea id="rm" class="inp" rows="4" placeholder="বিস্তারিত লিখুন (TrxID থাকলে দিন)"></textarea><div class="row"><button class="btn gh" style="flex:1" data-a="x">বাতিল</button><button class="btn" style="flex:1" data-a="rsub">পাঠান</button></div>`),
+ report:()=>modal(`<b style="font-size:17px">⚠️ অভিযোগ ও রিপোর্ট</b><select id="rt" class="inp"><option>Payment পাইনি</option><option>Fake Account</option><option>Fraud</option><option>অন্যান্য</option></select><textarea id="rm" maxlength="900" class="inp" rows="4" placeholder="বিস্তারিত লিখুন (TrxID থাকলে দিন)"></textarea><div class="row"><button class="btn gh" style="flex:1" data-a="x">বাতিল</button><button class="btn" style="flex:1" data-a="rsub">পাঠান</button></div>`),
  rsub:async()=>{await addDoc(collection(db,'reports'),{uid:ID,name:S.u.name,type:$('#rt').value,msg:$('#rm').value,at:Date.now()});modal();toast('রিপোর্ট পাঠানো হয়েছে ✓')},
  how:()=>modal(`<b style="font-size:17px">❓ কিভাবে কাজ করতে হয়?</b><div class="mu" style="line-height:1.8">১. একাউন্ট একটিভ করুন।<br>২. Earn পেজে ভিডিও অ্যাড দেখুন, দৈনিক বোনাস ও সোশ্যাল টাস্ক করুন।<br>৩. রেফারেল লিংক শেয়ার করুন — বন্ধু একটিভ হলে আপনি ${fmt(cfg.refRw)} RC পাবেন।<br>৪. একাউন্ট একটিভ করুন — ${B(cfg.fee)}৳ পেমেন্ট করে, অথবা ${B(cfg.actRefs)} জন রেফার করে ফ্রি।<br>৫. উইথড্রের জন্য আলাদা ${B(cfg.wRefs)} জন নতুন রেফার${cfg.wRefEach!==false?' (প্রতিবার)':''} ও মিনিমাম ${cfg.minW} RC লাগবে। ${B(cfg.rateCoins)} RC = ${B(cfg.rateTaka)}৳।</div><button class="btn w" data-a="x">বুঝেছি</button>`),
  rules:()=>A.how(),help:()=>A.how(),
@@ -343,8 +377,9 @@ onSnapshot(doc(db,'config','app'),s=>{if(s.exists()){cfg=mk(s.data());draw()}});
 if(gated()){draw();return}
 onSnapshot(doc(db,'config','methods'),s=>{if(s.exists()){S.mt=s.data().list;draw()}});
 onSnapshot(doc(db,'config','helpline'),s=>{if(s.exists()){S.hl=s.data();if(S.P!='help')draw()}});
-if(!(await getDoc(uref)).exists()){const w=Math.min(5,+cfg.welcome||0);await setDoc(uref,{name:[tu.first_name,tu.last_name].filter(Boolean).join(' ')||'User',username:tu.username||'',rc:w,refs:0,refEarn:0,adE:0,taskE:0,ads:0,tasks:0,active:false,loanTaken:false,loanDue:0,refUsed:0,wdN:0,refBy:ref0&&ref0!==ID?ref0:'',usedPromos:[],lastBonus:0,adDay:'',adsToday:0,at:Date.now(),owner:auth.currentUser.uid});if(w>0)addDoc(collection(uref,'tx'),{t:'Signup Reward',d:'ওয়েলকাম বোনাস ওয়ালেটে যুক্ত হয়েছে',n:w,at:Date.now()})}
-const L=(q,f)=>onSnapshot(q,s=>{f(s);draw()});
+if(!(await getDoc(uref)).exists()){const w=Math.min(5,+cfg.welcome||0);await setDoc(uref,{name:[tu.first_name,tu.last_name].filter(Boolean).join(' ')||'User',username:tu.username||'',rc:w,refs:0,refEarn:0,adE:0,taskE:0,ads:0,tasks:0,active:false,loanTaken:false,loanDue:0,refUsed:0,wdN:0,tgId:ID,refBy:ref0&&ref0!==ID?ref0:'',usedPromos:[],lastBonus:0,adDay:'',adsToday:0,at:Date.now(),owner:auth.currentUser.uid});if(w>0)addDoc(collection(uref,'tx'),{t:'Signup Reward',d:'ওয়েলকাম বোনাস ওয়ালেটে যুক্ত হয়েছে',n:w,at:Date.now()})}
+{const ex=await getDoc(uref);if(ex.exists()&&ex.data().owner!==auth.currentUser.uid)S.lost=1}
+const L=(q,f)=>onSnapshot(q,s=>{f(s);draw()},e=>console.warn(e.code));
 L(uref,s=>S.u=s.data());
 L(collection(db,'tasks'),s=>S.tasks=s.docs.map(d=>({id:d.id,...d.data()})));
 L(query(collection(db,'submissions'),where('owner','==',auth.currentUser.uid)),s=>S.subs=s.docs.map(d=>d.data()));
