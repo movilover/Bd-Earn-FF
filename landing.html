@@ -36,6 +36,18 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}.mu{co
 @keyframes flip{from{transform:rotateX(90deg);opacity:0}to{transform:none;opacity:1}}
 .hide{display:none!important}.c{text-align:center}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}.bn,.pop{opacity:.8}}
+
+.info b,#hw>b{font-size:15px}.info,#hw{text-align:left!important}
+.sti{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:14px;line-height:1.5}.sti i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 13px Sora;font-style:normal;color:#04231a;background:linear-gradient(135deg,#5cf2b9,#F5C451);box-shadow:0 4px 12px -3px #5cf2b988}
+.tm{text-align:center;position:relative;overflow:hidden;background:linear-gradient(160deg,#0f3a2c,#09201a)!important;border-color:#2a8a68!important}
+.tm:before{content:"";position:absolute;inset:-40% -20% auto;height:80%;background:radial-gradient(closest-side,#5cf2b933,transparent);animation:glow 3s ease-in-out infinite}@keyframes glow{50%{transform:scale(1.2);opacity:.6}}
+.nbp{display:inline-flex;align-items:center;gap:8px;padding:5px 14px 5px 6px;border-radius:99px;background:#0006;border:1px solid #ffffff22;position:relative}.nbd{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;color:#fff;font:800 14px Sora}
+.rg{position:relative;width:176px;height:176px;margin:12px auto 6px}.rg svg{width:100%;height:100%;transform:rotate(-90deg)}.rg .b{fill:none;stroke:#ffffff14;stroke-width:9}.rg .f{fill:none;stroke:url(#g1);stroke-width:9;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:0;transition:stroke-dashoffset .25s linear;filter:drop-shadow(0 0 8px #5cf2b9aa)}
+.rg .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.rg .num b{font:800 48px Sora;line-height:1}.rg .num span{font-size:12px;color:var(--mu)}
+.rgd{display:flex;justify-content:center;gap:6px;margin:6px 0 4px}.rgd i{width:26px;height:6px;border-radius:6px;background:#ffffff22}.rgd i.on{background:linear-gradient(90deg,#5cf2b9,#F5C451)}
+#nx{margin-top:10px;width:100%}.wn{font-size:12px;color:#f5c451;margin-top:8px}
+.code{display:flex;justify-content:center;gap:8px;margin:12px 0}.code i{font:800 26px Sora;font-style:normal;width:42px;height:54px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(160deg,#143d2e,#0a241b);border:1px solid #2a8a68;color:#F5C451;box-shadow:0 8px 18px -8px #000;animation:cin .5s cubic-bezier(.2,1.4,.4,1) both}@keyframes cin{from{opacity:0;transform:translateY(14px) scale(.7)}}
+#cp{width:100%;margin-bottom:6px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5cf2b9"/><stop offset="1" stop-color="#F5C451"/></linearGradient>
 <symbol id="pp" viewBox="0 0 60 80"><path d="M4 80c0-19 11-29 26-29s26 10 26 29z" fill="currentColor"/><rect x="25" y="40" width="10" height="14" rx="4" fill="#e3ad88"/><circle cx="30" cy="28" r="15" fill="#f1c9a5"/><path d="M14 27c0-13 8-18 16-18s16 5 16 18c-4-6-9-9-16-9s-12 3-16 9z" fill="var(--hair,#2b1b12)"/><circle cx="25" cy="30" r="1.7" fill="#2b1b12"/><circle cx="35" cy="30" r="1.7" fill="#2b1b12"/><path d="M24.5 36q5.5 4.5 11 0" stroke="#8a4a3a" stroke-width="1.7" fill="none" stroke-linecap="round"/></symbol></defs></svg>
@@ -45,49 +57,56 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}.mu{co
 <svg class="pp p1" style="color:#28e297;--hair:#2b1b12"><use href="#pp"/></svg><svg class="pp p2" style="color:#3ddaa1;--hair:#4a2c14"><use href="#pp"/></svg><svg class="pp p3" style="color:#e8a727;--hair:#161616"><use href="#pp"/></svg>
 <span class="pop q1">+৳</span><span class="pop q2">+৳</span><span class="pop q3">+৳</span></div>
 <div id="msg" class="card c mu hide"></div>
-<div id="ads" class="w" style="gap:10px"></div>
-<div id="done" class="card c hide"><b style="font-size:18px">🎉 অভিনন্দন! সব বিজ্ঞাপন দেখা শেষ</b><div class="mu" style="margin-top:6px">আপনার ভেরিফিকেশন কোড:</div><div class="code" id="code"></div>
-<button class="btn au" id="cp">⧉ কোড কপি করুন</button><div class="mu" id="nt" style="margin:12px 0">হোম পেজে ফিরে গিয়ে কোডটি বসিয়ে সাবমিট করুন — কয়েন সাথে সাথে ব্যালেন্সে যোগ হবে।</div><button class="btn" id="hm">🏠 হোম পেজে ফিরে যান</button></div>
+<div class="card info" id="ab"></div>
+<div class="card" id="hw"><b>📖 কিভাবে কাজ করবেন</b><div id="hs"></div></div>
+<div class="card c tm" id="tm"><div class="nbp" id="net"></div><div class="rg"><svg viewBox="0 0 120 120"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5cf2b9"/><stop offset="1" stop-color="#F5C451"/></linearGradient></defs><circle class="b" cx="60" cy="60" r="52"/><circle class="f" id="rf" cx="60" cy="60" r="52"/></svg><div class="num"><b id="cd">15</b><span>সেকেন্ড বাকি</span></div></div><div class="rgd" id="dt"></div><div class="mu" id="sg"></div><button class="btn au hide" id="nx"></button><div class="wn">⚠️ এই পেজ ছেড়ে গেলে টাইমার থেমে যাবে</div></div>
+<div id="done" class="card c hide"><b style="font-size:19px">🎉 অভিনন্দন! টাইমার সম্পন্ন</b><div class="mu" style="margin-top:6px">আপনার ভেরিফিকেশন কোড (প্রতিবার নতুন):</div><div class="code" id="code"></div>
+<button class="btn au" id="cp">⧉ কোড কপি করুন</button><div class="mu" id="nt" style="margin:10px 0">হোম পেজে ফিরে গিয়ে কোডটি বসিয়ে সাবমিট করুন — কয়েন সাথে সাথে ব্যালেন্সে যোগ হবে।</div><button class="btn" id="hm">🏠 হোম পেজে ফিরে যান</button></div>
 <div class="mu c" id="ft"></div></div>
 <script>(async()=>{
 const FC={apiKey:"AIzaSyAm6kON2hANHeswKYi5JidgElFPhVw3J48",authDomain:"bd-earn-ff.firebaseapp.com",projectId:"bd-earn-ff",storageBucket:"bd-earn-ff.firebasestorage.app",messagingSenderId:"354176974621",appId:"1:354176974621:web:fcf93aaa013ca8ed3c6bf4"},TG=window.Telegram?.WebApp;TG?.ready();TG?.expand();
 const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,ms)),td=()=>new Date(Date.now()+216e5).toISOString().slice(0,10),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const msg=t=>{const m=$('#msg');m.innerHTML=t;m.classList.remove('hide')};
+const msg=t=>{const m=$('#msg');m.innerHTML=t;m.classList.remove('hide');['#tm','#hw','#ab'].forEach(x=>$(x).classList.add('hide'))};
+const NBC={monetag:['#6C5CE7','#00C2FF'],gigapub:['#FF8A00','#FF3D77'],facebook:['#1877F2','#0A4FB3'],adsgram:['#22C55E','#0EA5A4'],tads:['#0EA5E9','#2563EB'],adbnk:['#F43F5E','#BE123C'],bengalads:['#16A34A','#CA8A04'],amanah:['#0D9488','#115E59']};
+const bdg=n=>{const k=Object.keys(NBC).find(x=>String(n||'').toLowerCase().includes(x)),c=NBC[k]||['#10b981','#0f766e'];return`<span class="nbd" style="background:linear-gradient(135deg,${c[0]},${c[1]})">${esc(String(n||'?').trim().charAt(0).toUpperCase())}</span>`};
+const cp=async t=>{try{await navigator.clipboard.writeText(t);return 1}catch(_){try{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch(__){return 0}}};
+const open=u=>{u=String(u||'');if(!/^https?:\/\//i.test(u))u='https://'+u;TG?.openLink?TG.openLink(u):window.open(u,'_blank')};
 const sc=$('#scene');for(let i=0;i<9;i++){const e=document.createElement('span');e.className='bn';e.textContent='৳';e.style.cssText=`left:${4+i*10.5}%;animation-duration:${4+Math.random()*3}s;animation-delay:${Math.random()*4}s`;sc.appendChild(e)}
 for(let i=0;i<7;i++){const e=document.createElement('span');e.className='cn';e.style.cssText=`left:${6+i*13}%;animation-duration:${2.8+Math.random()*2}s;animation-delay:${Math.random()*3}s`;sc.appendChild(e)}
 $('#hm').onclick=()=>location.href='./';
 try{
 const V='https://www.gstatic.com/firebasejs/10.12.2/';const[a,f,au]=await Promise.all([import(V+'firebase-app.js'),import(V+'firebase-firestore.js'),import(V+'firebase-auth.js')]);
 const app=a.initializeApp(FC),db=f.getFirestore(app),auth=au.getAuth(app);await au.signInAnonymously(auth);
-const cs=await f.getDoc(f.doc(db,'config','app')),cfg={siteName:'BD Earn FF',jobRw:1,jobMax:10,jobSec:15,jobLinks:[],...(cs.exists()?cs.data():{})};
+const cs=await f.getDoc(f.doc(db,'config','app')),cfg={siteName:'BD Earn FF',jobRw:1,jobMax:10,jobSec:15,jobLinks:[],landAbout:'',landSteps:'',...(cs.exists()?cs.data():{})};
 $('#sn').textContent=cfg.siteName;$('#lg').textContent=String(cfg.siteName||'B').trim().charAt(0).toUpperCase();if(cfg.landTitle)$('#ht').textContent=cfg.landTitle;if(cfg.landNote)$('#nt').textContent=cfg.landNote;document.title=cfg.siteName+' — Ad Job';$('#rw').textContent='+'+cfg.jobRw+' RC';$('#ft').textContent='© '+cfg.siteName;
+$('#ab').innerHTML=`<b>ℹ️ ${esc(cfg.siteName)} সম্পর্কে</b><div class="mu" style="margin-top:6px;white-space:pre-line">${esc(cfg.landAbout||(cfg.siteName+' — ডেইলি বিজ্ঞাপন দেখে, টাস্ক সম্পন্ন করে ও বন্ধুদের রেফার করে ঘরে বসে আয় করুন। আপনার কয়েন সরাসরি বিকাশ/নগদে উইথড্র করা যায়।'))}</div>`;
+const stp=String(cfg.landSteps||'').split('\n').map(x=>x.trim()).filter(Boolean),ST=stp.length?stp:['⏳ নিচের টাইমার শেষ হওয়া পর্যন্ত এই পেজেই অপেক্ষা করুন।','🔑 টাইমার শেষে একটি ভেরিফিকেশন কোড আসবে — প্রতিবার নতুন কোড। কোডটি কপি করুন, ডাইরেক্ট লিংক নিজে থেকেই খুলবে।','🏠 হোম পেজে ফিরে কোডটি বসিয়ে সাবমিট করলেই কয়েন যোগ হবে।'];
+$('#hs').innerHTML=ST.map((t,i)=>`<div class="sti"><i>${i+1}</i><span>${esc(t)}</span></div>`).join('');
 const qp=new URLSearchParams(location.search),ID=qp.get('u')||'',tid=qp.get('t')||'',us=ID?await f.getDoc(f.doc(db,'users',ID)):null;
-if(!us||!us.exists()||us.data().owner!==auth.currentUser.uid)return msg('অনুগ্রহ করে হোম পেজের Earn সেকশন থেকে "অ্যাড জব" বাটনে চাপ দিয়ে শুরু করুন।<br><br><button class="btn" onclick="location.href=\'./\'">🏠 হোম পেজ</button>');
+if(!us||!us.exists()||us.data().owner!==auth.currentUser.uid)return msg('অনুগ্রহ করে হোম পেজের Earn সেকশন থেকে "অ্যাড জব" শুরু করুন।<br><br><button class="btn" onclick="location.href=\'./\'">🏠 হোম পেজ</button>');
 const u=us.data();if(u.jobDay===td()&&(u.jobsToday||0)>=cfg.jobMax)return msg('আজকের জব লিমিট শেষ। আগামীকাল আবার চেষ্টা করুন।');
 let tk=null;if(tid){const ts=await f.getDoc(f.doc(db,'tasks',tid));if(ts.exists())tk=ts.data()}
-const L=(tk?(tk.links||[]):(cfg.jobLinks||[]).filter(x=>x.on&&x.url)).slice(0,8),SEC=+(tk?tk.sec:cfg.jobSec)||15;if(tk){$('#rw').textContent='+'+tk.rc+' RC';$('#sn').textContent=cfg.siteName+' · '+tk.title}
+const ALL=tk?(tk.links||[]).slice(0,8):(cfg.jobLinks||[]).filter(x=>x.on&&x.url);let L,SEC;
+if(tk){L=ALL;SEC=+tk.sec||15;$('#rw').textContent='+'+tk.rc+' RC';$('#sn').textContent=cfg.siteName+' · '+tk.title}else{const li=Math.max(0,Math.min(ALL.length-1,+qp.get('l')||0));L=ALL.length?[ALL[li]]:[];SEC=+cfg.jobSec||15}
 if(!L.length)return msg('এখন কোনো জব নেই। পরে চেষ্টা করুন।');
 const ref=await f.addDoc(f.collection(db,'jobs'),{owner:auth.currentUser.uid,uid:ID,t0:f.serverTimestamp(),done:false,claimed:false,n:L.length,sec:SEC,tid});
-const open=u=>TG?.openLink?TG.openLink(u):window.open(u,'_blank');
-$('#ads').innerHTML=L.map((x,i)=>`<div class="ad ${i?'':'on'}" id="a${i}"><div class="ring" id="r${i}"><svg viewBox="0 0 64 64"><circle class="bg" cx="32" cy="32" r="28"/><circle class="fg" cx="32" cy="32" r="28"/></svg><b>${i?'🔒':'TAP'}</b></div><div><b>বিজ্ঞাপন ${i+1}/${L.length}</b><div class="mu">${esc(x.name)} · ${SEC} সেকেন্ড</div></div><span class="st">${i?'লক':'ট্যাপ করুন'}</span></div>`).join('');
-let cur=0,t0=0,iv;
+let cur=0,left=SEC,last=Date.now(),iv;
+const paint=()=>{$('#cd').textContent=Math.max(0,Math.ceil(left));$('#rf').style.strokeDashoffset=327*(1-Math.min(1,(SEC-left)/SEC))};
+const stage=()=>{const x=L[cur];$('#net').innerHTML=bdg(x.name)+`<b>${esc(x.name||'Direct Link')}</b>`;$('#sg').textContent=L.length>1?`ধাপ ${cur+1}/${L.length}`:'টাইমার শেষ হলেই কোড আসবে';$('#dt').innerHTML=L.length>1?L.map((_,i)=>`<i class="${i<=cur?'on':''}"></i>`).join(''):'';$('#nx').classList.add('hide');left=SEC;paint();last=Date.now();clearInterval(iv);iv=setInterval(()=>{const n=Date.now();if(document.hidden){last=n;return}left-=(n-last)/1000;last=n;paint();if(left<=0){clearInterval(iv);end()}},200)};
+const end=()=>{if(cur<L.length-1){const b=$('#nx');b.textContent='🔗 লিংক ওপেন করুন → পরবর্তী ধাপ';b.classList.remove('hide');b.onclick=()=>{open(L[cur].url);cur++;stage()}}else finish()};
 const finish=async()=>{const code=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);let ok=0;
  for(let i=0;i<10&&!ok;i++){try{await f.updateDoc(ref,{done:true,code});ok=1}catch(e){await sleep(2500)}}
  if(!ok)return msg('সেশন যাচাই হয়নি। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।');
- $('#code').innerHTML=[...code].map((d,i)=>`<i style="animation-delay:${i*.12}s">${d}</i>`).join('');$('#done').classList.remove('hide');
- $('#cp').onclick=()=>{navigator.clipboard?.writeText(code);$('#cp').textContent='✓ কপি হয়েছে'}};
-const tick=()=>{const i=cur,el=$('#a'+i),left=SEC-(Date.now()-t0)/1000;
- el.querySelector('.fg').style.strokeDashoffset=176*(1-Math.min(1,(SEC-left)/SEC));
- if(left>0){el.querySelector('b').textContent=Math.ceil(left);return}
- clearInterval(iv);el.className='ad ok';el.querySelector('.ring').classList.remove('run');el.querySelector('b').textContent='✓';el.querySelector('.st').textContent='সম্পন্ন';t0=0;cur++;
- if(cur<L.length){const n=$('#a'+cur);n.classList.add('on');n.querySelector('b').textContent='TAP';n.querySelector('.st').textContent='ট্যাপ করুন'}else finish()};
-L.forEach((x,i)=>$('#r'+i).onclick=()=>{if(i!==cur)return;open(x.url);if(!t0){t0=Date.now();$('#r'+i).classList.add('run');$('#a'+i).querySelector('.st').textContent='অপেক্ষা করুন…';iv=setInterval(tick,250);tick()}});
+ $('#code').innerHTML=[...code].map((d,i)=>`<i style="animation-delay:${i*.12}s">${d}</i>`).join('');$('#tm').classList.add('hide');$('#done').classList.remove('hide');
+ const one=L.length===1;$('#cp').textContent=one?'⧉ কোড কপি করে লিংক ওপেন করুন':'⧉ কোড কপি করুন';
+ $('#cp').onclick=async()=>{await cp(code);$('#cp').textContent=one?'✓ কপি হয়েছে — লিংক ওপেন হয়েছে':'✓ কপি হয়েছে';if(one)open(L[0].url)}};
+stage();
 }catch(e){console.error(e);msg('সংযোগ সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।')}
 })();</script><script src="emoji.js"></script>
-<script>(()=>{let q=0;const CD='https://cdn.jsdelivr.net/npm/emoji-datasource-google@16.0.0/img/google/64/',TB='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
+<script>(()=>{let q=0;const CD='https://cdn.jsdelivr.net/npm/@lobehub/fluent-emoji-3d@1.1.0/assets/',TB='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
 const FE=window.FE=t=>t.replace(/[\u2699\u26A0\u2708\u2709\u260E\u2714\u2B05\u21A9\u25B6\u{1F6E1}\u{1F6E0}\u{1F5C2}\u{1F39F}\u{1F3F7}\u{1F5BC}\u{1F5D1}](?!\uFE0F)/gu,m=>m+'\uFE0F');
-const EO=window.EO={className:'em',callback:i=>{const k=i.replace(/-fe0f/g,'');return(window.EMJ&&EMJ[k])||CD+k+'.png'},attributes:()=>({decoding:'sync'})};
+const EO=window.EO={className:'em',callback:i=>{const k=i.replace(/-fe0f/g,'');return(window.EMJ&&EMJ[k])||CD+k+'.webp'},attributes:()=>({decoding:'sync'})};
 const T=()=>{q=0;if(!window.twemoji)return;const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const v=n.nodeValue,f=FE(v);if(f!==v&&!/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.parentNode.nodeName))n.nodeValue=f}twemoji.parse(document.body,EO)};
 new MutationObserver(()=>{q||(q=requestAnimationFrame(T))}).observe(document.body,{childList:true,subtree:true,characterData:true});window.addEventListener('load',T);
-document.addEventListener('error',e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains('em'))return;const n=+t.dataset.f||0;t.dataset.f=n+1;try{const c=twemoji.convert.toCodePoint(t.alt);if(n==0)t.src=CD+c+'-fe0f.png';else if(n==1)t.src=TB+c+'.png'}catch(_){}},true)})()</script>
+document.addEventListener('error',e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains('em'))return;const n=+t.dataset.f||0;t.dataset.f=n+1;try{const c=twemoji.convert.toCodePoint(t.alt);if(n==0)t.src=CD+c+'-fe0f.webp';else if(n==1)t.src=TB+c+'.png'}catch(_){}},true)})()</script>
 </body></html>
